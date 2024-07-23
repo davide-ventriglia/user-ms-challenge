@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="it.challenge.user.service.impl.UserServiceImplTest" tests="10" skipped="0" failures="0" errors="0" timestamp="2024-07-23T14:19:43" hostname="MacBook-Pro-di-Davide-3.local" time="0.047">
+  <properties/>
+  <testcase name="testDeleteUser_Success()" classname="it.challenge.user.service.impl.UserServiceImplTest" time="0.028"/>
+  <testcase name="testUpdateUser_Success()" classname="it.challenge.user.service.impl.UserServiceImplTest" time="0.001"/>
+  <testcase name="testSearchUsers()" classname="it.challenge.user.service.impl.UserServiceImplTest" time="0.009"/>
+  <testcase name="testCreateUser_UserAlreadyExists()" classname="it.challenge.user.service.impl.UserServiceImplTest" time="0.001"/>
+  <testcase name="testGetUserByEmail_Success()" classname="it.challenge.user.service.impl.UserServiceImplTest" time="0.001"/>
+  <testcase name="testUpdateUser_UserNotFound()" classname="it.challenge.user.service.impl.UserServiceImplTest" time="0.001"/>
+  <testcase name="testGetUserByEmail_UserNotFound()" classname="it.challenge.user.service.impl.UserServiceImplTest" time="0.001"/>
+  <testcase name="testImportFromCsv_ValidFile()" classname="it.challenge.user.service.impl.UserServiceImplTest" time="0.003"/>
+  <testcase name="testCreateUser_Success()" classname="it.challenge.user.service.impl.UserServiceImplTest" time="0.002"/>
+  <testcase name="testDeleteUser_UserNotFound()" classname="it.challenge.user.service.impl.UserServiceImplTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
