@@ -1,7 +1,7 @@
 #!/bin/bash
 
 echo "Stopping and removing existing containers..."
-docker-compose down
+docker-compose down -v --rmi local
 
 echo "Building the project with Gradle..."
 ./gradlew clean build -x test

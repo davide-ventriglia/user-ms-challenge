@@ -1,8 +1,10 @@
 package it.challenge.user.controller;
 
+import java.io.IOException;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import it.challenge.user.dto.UserDTO;
 import it.challenge.user.service.UserService;
@@ -56,6 +59,19 @@ public class UserController {
 	public ResponseEntity<Void> deleteUser(@PathVariable(name = "email") String email) {
 		userService.deleteUser(email);
 		return ResponseEntity.noContent().build();
+	}
+	
+	@PostMapping(value = "/import-csv", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE} )
+	public ResponseEntity<String> importFromCsv(@RequestParam("file") MultipartFile file) throws IOException{
+		if (file.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Please upload a CSV file.");
+        } else {
+        	try {
+        		return ResponseEntity.status(HttpStatus.OK).body(userService.importFromCsv(file));
+        	}catch(IOException e) {
+        		throw new IOException(e);
+        	}
+        }
 	}
 
 }

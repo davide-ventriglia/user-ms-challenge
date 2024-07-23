@@ -1,10 +1,18 @@
 package it.challenge.user.service.impl;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVParser;
+import org.apache.commons.csv.CSVRecord;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import it.challenge.user.dto.UserDTO;
 import it.challenge.user.exception.CustomAlreadyExistsException;
@@ -77,6 +85,38 @@ public class UserServiceImpl implements UserService{
 		if (u==null)
 			throw new CustomNotFoundException("The user with email [" + email + "] does not exists in the database.");
 		userRepository.deleteByEmail(email);
+	}
+
+	@Override
+	public String importFromCsv(MultipartFile file) throws IOException{
+		try (BufferedReader reader = new BufferedReader(new InputStreamReader(file.getInputStream(), StandardCharsets.UTF_8));
+	             CSVParser csvParser = new CSVParser(reader, CSVFormat.DEFAULT.withFirstRecordAsHeader().withIgnoreHeaderCase().withTrim())) {
+
+	            for (CSVRecord csvRecord : csvParser) {
+	                String email = csvRecord.get("email");
+	                User u = userRepository.findByEmail(email);
+	                if(u!=null) {
+	                	continue;
+	                }
+	                
+	                String firstName = csvRecord.get("firstName");
+	                String lastName = csvRecord.get("lastName");
+	                String address = csvRecord.get("address");
+
+	                User user = new User();
+	                user.setEmail(email);
+	                user.setFirstName(firstName);
+	                user.setLastName(lastName);
+	                user.setAddress(address);
+	                
+	                userRepository.save(user);
+	            }
+	            return "File uploaded and processed successfully.";
+
+	        } catch (IOException e) {
+	        	throw new IOException("Error reading CSV file: " + e.getMessage());
+	        }
+		
 	}
 
 }
